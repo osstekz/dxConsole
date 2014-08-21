@@ -1,4 +1,4 @@
 XTerm
 =====
 
-Dart Server-side GUI for Windows
+Dart server-side GUI for Windows
