@@ -7,7 +7,7 @@ administration tasks, very similar to BIOS setup screens.
 
 ------------------------------------
 ####CHANGES YOU NEED TO DO BEFOR RUNNING
-Unfortunately Dart implements a hardcoded scheme for extension dll filenames. Depending on your OS(32/64bit) architecture, you must copy the appropriate bin\xterm_???.dll to xterm.dll 
+Unfortunately Dart implements a hardcoded filename scheme for native extension dlls. Depending on your OS(32/64bit) architecture, you must copy the appropriate bin\xterm_???.dll to bin\xterm.dll 
 	
 	Example:
 	If running 64bit OS
