@@ -11,9 +11,9 @@ Unfortunately Dart implements a hardcoded filename scheme for native extension d
 	
 	Example:
 	If running 64bit OS
-		copy bin/xterm_win64.dll to xterm.dll
+		copy bin\xterm_win64.dll to bin\xterm.dll
 	If running 32bit OS
-		copy bin/xterm_win32.dll to xterm.dll
+		copy bin\xterm_win32.dll to bin\xterm.dll
 
 ------------------------------------
 ###HOW TO RUN
