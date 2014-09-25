@@ -1,9 +1,9 @@
 part of xterm;
 
-const bool bDEBUGMODE = true;
+const bool bDEBUGMODE = false;
 
 /**
- * Manipulates the Winapi ReadConsoleInput function running in its own thread to directly access a console's input buffer.
+ * Manipulates the Win32 api ReadConsoleInput function running in its own thread to directly access a console's input buffer.
  * Do not mix ConsoleInputEvents & stdin streams in the same application. Use ConsoleInputEvents or stdin, but not both.
  * All stdin consumers process/remove stdin events in FIFO order, so they can not be shared.
  */

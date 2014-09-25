@@ -8,7 +8,6 @@ import "dart:isolate";
 //SECTION: Native extensions
 //REFER:https://www.dartlang.org/articles/native-extensions-for-standalone-dart-vm/#building-on-windows
 //SOURCE:http://dart.googlecode.com/svn/trunk/dart/samples/sample_extension/
-//SOURCE:c:\users\ossdevyorgi\documents\visual studio 2010\Projects\DartX_ConsoleXTerm\Debug\DartX_ConsoleXTerm.dll
 //===================================================
 import "dart-ext:../bin/xterm";
 //import 'dart:nativewrappers' as nw;
@@ -16,12 +15,13 @@ import "dart-ext:../bin/xterm";
 import "package:ansicolor/ansicolor.dart";
 import "dart:typed_data";
 //import "package:osslib/ossutils.dart";
-import "package:ossdevtools/utils.dart";
+//import "package:ossdevtools/utils.dart";
 
 part 'src/consoleinput.dart';
 part 'src/xterm_main.dart';
 
 class SysInfo {
+//TODO:PERF:Combine SysInfo into single call native "XTGetSysInfo";
 	static final bool isLittleEndian = _isLittleEndian();
 	static bool _isLittleEndian() native "XTIsLittleEndian";
 

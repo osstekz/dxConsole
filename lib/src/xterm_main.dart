@@ -73,7 +73,7 @@ const int iXCONTROLEVENTTYPE_MINVALUE = 0x01,
 
 class XTerm extends AnsiPen {
 	//ANSI Control Sequence Introducer, signals the terminal for new settings.
-	//OSS:PERF Avoid wasteful string interpolation ${ANSI_ESC}, use const String \x1B instead
+	//PERF: Avoid overhead in string interpolation ${ANSI_ESC}, use const String \x1B instead
 	//Show the cursor.
 	static const String ANSICMD_CURSOR_SHOW = "\x1B[?25h";
 	//Hide the cursor.
