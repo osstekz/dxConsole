@@ -7,17 +7,17 @@ administration tasks, very similar to BIOS setup screens.
 
 ------------------------------------
 ####CHANGES YOU NEED TO DO BEFOR RUNNING
-Unfortunately Dart implements a hardcoded filename scheme for native extension dlls. Depending on your OS(32/64bit) architecture, you must copy the appropriate bin\xterm_???.dll to bin\xterm.dll 
+Unfortunately Dart implements a hardcoded filename scheme for native extension dlls. Depending on your OS(32/64bit) architecture, you must copy the appropriate bin\dxConsole_???.dll to bin\dxConsole.dll 
 	
 	Example:
 	If running 64bit OS
-		copy bin\xterm_win64.dll to bin\xterm.dll
+		copy bin\dxConsole_win64.dll to bin\dxConsole.dll
 	If running 32bit OS
-		copy bin\xterm_win32.dll to bin\xterm.dll
+		copy bin\dxConsole_win32.dll to bin\dxConsole.dll
 
 ------------------------------------
 ###HOW TO RUN
-dart.exe --checked  example\xtermdemo_main.dart
+dart.exe --checked  example\dxConsoledemo_main.dart
  
 ------------------------------------
 ####DEVELOPMENT
