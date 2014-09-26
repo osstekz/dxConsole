@@ -1,3 +1,6 @@
+[core]
+    pager = less -FXRS -x4
+    
 # Auto detect text files and perform LF normalization
 * text=auto
 
