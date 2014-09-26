@@ -2,7 +2,7 @@
 ###Dart Console Library for Windows
 
 This library was created to support customers requiring extended native Windows Console support.
-XTerm implements both Forms & Commandline modes. Forms mode is especially useful for configuration &
+dxConsole implements both Forms & Commandline modes. Forms mode is especially useful for configuration &
 administration tasks, very similar to BIOS setup screens.
 
 ------------------------------------

@@ -1,4 +1,4 @@
-part of xterm;
+part of dxConsole;
 
 const bool bDEBUGMODE = false;
 
@@ -255,7 +255,7 @@ class ConsoleInputEvents {
 						//PERF: Replace _onReply with our real handler
 						_rrpReply.handler = _fnhandler;
 						String _sendKeys = _parms.sSendKeys;
-						if (_sendKeys != null && _sendKeys.length > 0) XTerm.sendKeys(_sendKeys);
+						if (_sendKeys != null && _sendKeys.length > 0) DXConsole.sendKeys(_sendKeys);
 					}
 				}
 				_parms._completer.complete(true);

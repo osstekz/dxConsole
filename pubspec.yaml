@@ -1,4 +1,4 @@
-name: XTerm
+name: dxConsole
 version: 0.8.0-dev.0.1
 author: Omni Software Systems Inc
 description: Dart Console Library for Windows
@@ -7,4 +7,3 @@ environment:
   sdk: '>=1.0.0 <2.0.0'
 dependencies:
   ansicolor: any
-dev_dependencies:
