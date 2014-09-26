@@ -6,7 +6,7 @@ dxConsole implements both Forms & Commandline modes. Forms mode is especially us
 administration tasks, very similar to BIOS setup screens.
 
 ------------------------------------
-####CHANGES YOU NEED TO DO BEFOR RUNNING
+####CHANGES YOU NEED TO DO BEFORE RUNNING
 Unfortunately Dart implements a hardcoded filename scheme for native extension dlls. Depending on your OS(32/64bit) architecture, you must copy the appropriate bin\dxConsole_???.dll to bin\dxConsole.dll 
 	
 	Example:
