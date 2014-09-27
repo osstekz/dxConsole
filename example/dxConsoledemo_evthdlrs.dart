@@ -50,9 +50,10 @@ void evthdlrMainMenu(Uint8List evtInput) {
 	assert(cachedXWinTabbedMain == _xwinmgr[iXWINIDX_MAIN]);
 
 	int iEvtType = evtInput[iEVENTTYPE];
+
 	if (iEvtType == EVT_MOUSE) {
 		assert(evtInput.length == iMI_MOUSE_TOTAL_ELEMENTS);
-		assert(print("MouseEventProc dwEventFlags:${evtInput[iMI_MOUSE_FLAGS]} dwButtonState:${evtInput[iMI_MOUSE_BTNSTATE]} dwMousePosition:X(${evtInput[iMI_MOUSE_POSX]}) Y(${evtInput[iMI_MOUSE_POSY]})"));
+		assert(print("evthdlrMainMenu::MouseEventProc dwEventFlags:${evtInput[iMI_MOUSE_FLAGS]} dwButtonState:${evtInput[iMI_MOUSE_BTNSTATE]} dwMousePosition:X(${evtInput[iMI_MOUSE_POSX]}) Y(${evtInput[iMI_MOUSE_POSY]})"));
 //		switch (evtInput[iMI_MOUSE_FLAGS]) {
 //			case EVTFLAGS_SINGLE_CLICK:
 //				if (evtInput[iMI_MOUSE_BTNSTATE] == FROM_LEFT_1ST_BUTTON_PRESSED) {
@@ -102,7 +103,7 @@ void evthdlrMainMenu(Uint8List evtInput) {
 						if (cachedXInputLogCount != null) cachedXInputLogCount.setProperty(XControl.iPROPMASKVISIBLE, cachedXWinTabbedMain.tabView.iCurrTab == 4);
 						break;
 					default:
-						assert(print("doConsoleInputMainMenu:${evtInput[iKA_KEYCODE].toRadixString(16)} iKey:${iKey} ${evtInput}"));
+						assert(print("evthdlrMainMenu::iKA_KEYCODE:${evtInput[iKA_KEYCODE].toRadixString(16)} iKey:${iKey} ${evtInput}"));
 						break;
 				}
 			} else {
@@ -120,7 +121,7 @@ void evthdlrMainMenu(Uint8List evtInput) {
 						});
 						break;
 					default:
-						assert(print("doConsoleInputMainMenu iKey:${iKey} ${evtInput}"));
+						assert(print("evthdlrMainMenu:: iKey:${iKey} ${evtInput}"));
 						break;
 				}
 			}
