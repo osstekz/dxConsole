@@ -21,7 +21,7 @@ bool showMMTabFields(XTab xtab, Uint8List attrs) {
 			//Define XWindow:sXWINCHILDTAB1 with child controls
 			xwinTab1 = new XWindow.fromAttrs(attrs)
 					..border(iBORDERTYPE)
-					..nxsLabel = "xwinTab1"
+					..nxsLabel = "Title: Fields"
 					..colors(iCOLOR256_SYSTEM | iCOLOR256_ONCYAN, iCOLOR256_BRIGHTYELLOW | iCOLOR256_ONBRIGHTRED);
 			xwinTab1.addChildren([new XInputString(iSTARTCOL1, iSTARTROW, iELEMENTWIDTH)
 						..nxsFormat = "%10s"
@@ -79,7 +79,7 @@ bool showMMTabLog(XTab xtab, Uint8List attrs) {
 			//Define XWindow:sXWINCHILDTAB1 with child controls
 			xwinTab = new XWindow.fromAttrs(attrs)
 					..border(iBORDERTYPE)
-					..nxsLabel = "xwinTab1"
+					..nxsLabel = "Title: Log"
 					..colors(iCOLOR256_SYSTEM | iCOLOR256_ONCYAN, iCOLOR256_BRIGHTYELLOW | iCOLOR256_ONBRIGHTRED);
 			cachedXInputLogCount = new XInputNumber(iSTARTCOL1, iSTARTROW, iELEMENTWIDTH)
 					..setProperty(XControl.iPROPMASKENABLED, false)

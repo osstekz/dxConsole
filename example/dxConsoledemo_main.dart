@@ -12,7 +12,7 @@ part "dxConsoledemo_show.dart";
 part "dxConsoledemo_evthdlrs.dart";
 
 //-----------------------------------------------
-// Redirect dart:core print function to scrollwriter.print
+// Redirect dart:core print function to logger.print
 // Prints a string representation of the object to the console.
 //-----------------------------------------------
 bool print(Object object) {

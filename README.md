@@ -22,6 +22,8 @@ dart.exe --checked  example\dxConsoledemo_main.dart
 ------------------------------------
 ####DEVELOPMENT
 Development and testing for both 32/64bit OS versions uses the lastest Dev Channel SDK.  
+
+Contributions to this are absolutely welcome! Feel free to file issues, send pull requests, etc.
  
 ------------------------------------
 ####EXTENDED FEATURES

@@ -6,4 +6,8 @@ homepage: www.omnisoftsystems.com
 environment:
   sdk: '>=1.0.0 <2.0.0'
 dependencies:
+  barback: any
   ansicolor: any
+transformers:
+- NativeExtensionByOS:
+    OSbits: 64
