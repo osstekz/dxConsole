@@ -15,7 +15,6 @@ import "package:ansicolor/ansicolor.dart";
 import "dart-ext:bin/dxConsole";
 //import 'dart:nativewrappers' as nw;
 //===================================================
-
 part 'src/dxconsole_input.dart';
 part 'src/dxconsole_main.dart';
 
