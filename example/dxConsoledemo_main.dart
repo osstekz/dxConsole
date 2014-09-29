@@ -4,7 +4,7 @@ import "dart:io";
 import "dart:async";
 import "dart:typed_data";
 
-import "../lib/dxConsole.dart";
+import "package:dxConsole/dxConsole.dart";
 import "package:ansicolor/ansicolor.dart";
 
 part "dxConsoledemo_defs.dart";
@@ -78,6 +78,6 @@ void main() {
 //	_xwinmgr.idxCurrent = UNINITIALIZED_VALUE;
 //	})
 	.catchError((excp) {
-		if (bDEBUGMODE) _unhandledExceptionCallback("main::Error:$excp");
+		if (bDEBUGMODEDXCONSOLE) _unhandledExceptionCallback("main::Error:$excp");
 	});
 }

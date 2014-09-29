@@ -337,7 +337,7 @@ abstract class XControl {
 	//bool _onDataChange(XControlEventData evt) => false;
 	bool _onFocusChange(XControlEventFocus evt) {
 		assert(_nxPeer > 0);
-		if (bDEBUGMODE) {
+		if (bDEBUGMODEDXCONSOLE) {
 			//TODO:Verify iPROPMASKENABLED
 			//ensure can get focus
 			//if (evt.bGotFocus) assert(_nxu8lAttrs[iATTRBITFLAGS] & iPROPMASKENABLED == iPROPMASKENABLED);

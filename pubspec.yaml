@@ -1,13 +1,10 @@
 name: dxConsole
-version: 0.8.0-dev.0.1
+version: 0.8.0-dev.0.3
 author: Omni Software Systems Inc
 description: Dart Console Library for Windows
 homepage: www.omnisoftsystems.com
 environment:
   sdk: '>=1.0.0 <2.0.0'
 dependencies:
-  barback: any
+#  barback: any
   ansicolor: any
-transformers:
-- NativeExtensionByOS:
-    OSbits: 64
