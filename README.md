@@ -7,12 +7,10 @@ administration tasks, very similar to BIOS setup screens.
 
 ------------------------------------
 ####CHANGES YOU NEED TO DO BEFORE RUNNING
-Unfortunately Dart implements a hardcoded filename scheme for native extension dlls. Depending on your OS(32/64bit) architecture, you must copy the appropriate bin\dxConsole_???.dll to bin\dxConsole.dll 
+Unfortunately, Dart implements a hardcoded filename scheme for native extension dlls. The default installation for bin\dxConsole.dll is the 64bit version.  For Dart.exe(32bit), you must copy the appropriate bin\dxConsole_win32.dll to bin\dxConsole.dll. 
 	
 	Example:
-	If running 64bit OS
-		copy bin\dxConsole_win64.dll to bin\dxConsole.dll
-	If running 32bit OS
+	If running Dart.exe(32bit)
 		copy bin\dxConsole_win32.dll to bin\dxConsole.dll
 
 ------------------------------------
