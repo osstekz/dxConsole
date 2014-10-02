@@ -51,7 +51,7 @@ const int iDEFAULTCOLOR256_FG = iCOLOR256_BRIGHTGREEN,
 		iDEFAULTCOLOR256_BG = iCOLOR256_ONBLUE,
 		iDEFAULTCOLOR256_TEXT = iCOLOR256_BRIGHTWHITE;
 
-const int iMAXBYTEVALUE = 256,
+const int iMAXBYTEVALUE = 0xFF, //255
 		iUNINITIALIZED_VALUE = -1;
 
 //Dock position
@@ -70,6 +70,21 @@ const int iXCONTROLEVENTTYPE_MINVALUE = 0x01,
 		iXCONTROLEVENTTYPE_DATA = 0x05,
 		iXCONTROLEVENTTYPE_MAXVALUE = 0x05;
 //const String sXWINTABSVIEWNAME = "tabs";
+
+class SysInfo {
+	static int SYSINFOGRP_SYS = 0;
+	static int SYSINFOGRP_SYS_VERSION = 0;
+	static int SYSINFOGRP_SYS_PAGESIZE = 1;
+	static int SYSINFOGRP_SYS_SIZEOFINT = 2;
+	static int SYSINFOGRP_SYS_ISLITTLEINDIAN = 3;
+
+	static int SYSINFOGRP_WBER = 1;
+	static int SYSINFOGRP_WBER_WIDTH = 0;
+	static int SYSINFOGRP_WBER_HEIGHT = 1;
+
+	List _sysinfo(int iGrp) native "XTGetSysInfo";
+	List getGroup(int iGrp) => _sysinfo(iGrp);
+}
 
 class DXConsole extends AnsiPen {
 	//ANSI Control Sequence Introducer, signals the terminal for new settings.
@@ -297,21 +312,13 @@ abstract class XControl {
 
 	XControl(int iControlType, [int iPosX = 0, int iPosY = 0, int iHeight = 25, int iWidth = 80]) {
 		assert(iControlType > 0 && iControlType <= iMAXBYTEVALUE);
-		assert(iPosX >= 0 && iPosX <= iMAXBYTEVALUE);
-		assert(iPosY >= 0 && iPosY <= iMAXBYTEVALUE);
-		assert(iHeight > 0 && iHeight <= iMAXBYTEVALUE);
-		assert(iWidth > 0 && iWidth <= iMAXBYTEVALUE);
 		_nxu8lAttrs[iATTRCONTROLTYPE] = iControlType;
 		//init property flags
 		_nxu8lAttrs[iATTRBITFLAGS] = iPROPMASKENABLED | iPROPMASKVISIBLE;
 		//init attributes
-		_nxu8lAttrs[iATTRPOSX] = iPosX;
-		_nxu8lAttrs[iATTRPOSY] = iPosY;
-		_nxu8lAttrs[iATTRHEIGHT] = iHeight;
-		_nxu8lAttrs[iATTRWIDTH] = iWidth;
 		_nxu8lAttrs[iATTRBORDERCOLOR] = iDEFAULTCOLOR256_FG | iDEFAULTCOLOR256_BG;
 		_nxu8lAttrs[iATTRTEXTCOLOR] = iDEFAULTCOLOR256_TEXT | iDEFAULTCOLOR256_BG;
-		//_verifyAttrs(attrs);
+		setSize(iPosX, iPosY, iHeight, iWidth);
 	}
 
 	XControl.fromAttrs(Uint8List attributes) {
@@ -319,6 +326,21 @@ abstract class XControl {
 		_nxu8lAttrs.setAll(0, attributes);
 	}
 
+	void setSize(int iPosX, int iPosY, int iHeight, int iWidth) {
+		assert(iPosX >= 0);
+		assert(iPosY >= 0);
+		assert(iHeight > 0);
+		assert(iWidth > 0);
+		//clamp max values
+		if (iPosX > iMAXBYTEVALUE) iPosX = iMAXBYTEVALUE;
+		if (iPosY > iMAXBYTEVALUE) iPosY = iMAXBYTEVALUE;
+		if (iHeight > iMAXBYTEVALUE) iHeight = iMAXBYTEVALUE;
+		if (iWidth > iMAXBYTEVALUE) iWidth = iMAXBYTEVALUE;
+		_nxu8lAttrs[iATTRPOSX] = iPosX;
+		_nxu8lAttrs[iATTRPOSY] = iPosY;
+		_nxu8lAttrs[iATTRHEIGHT] = iHeight;
+		_nxu8lAttrs[iATTRWIDTH] = iWidth;
+	}
 	bool setProperty(int iPropMask, bool bOn) {
 		bool bResult = false;
 		if (iPropMask >= 0 && iPropMask < iMAXBYTEVALUE) {
@@ -415,8 +437,9 @@ class XScrollView extends XControl {
 		//Peer does not store value, passed here as argument
 		return _nxFnPaint(_nxPeer);
 	}
-	bool resize(int iDockPosition) {
+	bool resize(int iPosX, int iPosY, int iWidth, int iHeight, [int iDockPosition = iDOCKPOSITION_NONE]) {
 		assert(_nxPeer > 0);
+		setSize(iPosX, iPosY, iHeight, iWidth);
 		//_nxFnCreate resizes rectangle dimensions of existing _nxPeer if exists else its created
 		return _nxFnCreate(iDockPosition == iDOCKPOSITION_BOTTOM) != false;
 	}

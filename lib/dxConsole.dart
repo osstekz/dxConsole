@@ -17,18 +17,3 @@ import "dart-ext:bin/dxConsole";
 //===================================================
 part 'src/dxconsole_input.dart';
 part 'src/dxconsole_main.dart';
-
-class SysInfo {
-//TODO:PERF:Combine SysInfo into single call native "XTGetSysInfo";
-	static final bool isLittleEndian = _isLittleEndian();
-	static bool _isLittleEndian() native "XTIsLittleEndian";
-
-	static final int pageSize = _getPageSize();
-	static int _getPageSize() native "XTGetPageSize";
-
-	static final int sizeOfInt = _getSizeOfInt();
-	static int _getSizeOfInt() native "XTGetSizeOfInt";
-
-	static final String version = _getVersionString();
-	static String _getVersionString() native "XTGetVersionString";
-}

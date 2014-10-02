@@ -43,4 +43,4 @@ final int iMAXROWS_MAINMENU = 15,
 
 const int iXWINIDX_MAIN = 0;
 final XWinMgr _xwinmgr = new XWinMgr(1);
-final XScrollView logger = new XScrollView(0, iMAXROWS_MAINMENU, iMAXCOLS_MAINMENU, 20, iDOCKPOSITION_BOTTOM);
+final XScrollView logger = new XScrollView(0, iMAXROWS_MAINMENU, iMAXCOLS_MAINMENU, 20, iDOCKPOSITION_TOP);

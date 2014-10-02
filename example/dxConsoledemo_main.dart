@@ -25,7 +25,14 @@ bool print(Object object) {
 //Create sample messages for log window
 //-----------------------------------------------
 void cbTimer(Timer t) {
-	print("...sample message");
+	String sMsg;
+	if (stdout.hasTerminal) {
+		sMsg ="terminal Lines:${stdout.terminalLines} Cols:${stdout.terminalColumns}";
+	}
+	else	{
+		sMsg="...sample message";
+		}
+	print(sMsg);
 	if (cachedXInputLogCount != null) {
 		cachedXInputLogCount.value = iCount;
 	}

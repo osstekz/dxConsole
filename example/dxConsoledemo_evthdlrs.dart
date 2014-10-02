@@ -128,7 +128,11 @@ void evthdlrMainMenu(Uint8List evtInput) {
 		}
 	} else if (iEvtType == EVT_WINDOW_BUFFER_SIZE) {
 		assert(evtInput.length == iWI_WBER_TOTAL_ELEMENTS);
-		logger.resize(iDOCKPOSITION_BOTTOM);
+		assert((evtInput[iWI_WBER_ROWS] - iMAXROWS_MAINMENU) > 0);
+		logger.resize(0, iMAXROWS_MAINMENU, iMAXCOLS_MAINMENU, evtInput[iWI_WBER_ROWS] - iMAXROWS_MAINMENU, iDOCKPOSITION_BOTTOM);
+		if (stdout.hasTerminal) {
+			assert(print("evthdlrMainMenu EVT_WINDOW_BUFFER_SIZE iWI_WBER_COLS:$evtInput[iWI_WBER_COLS] iWI_WBER_ROWS:$evtInput[iWI_WBER_ROWS]"));
+		}
 	} else if (iEvtType == EVT_FOCUS) {
 	} else if (iEvtType == EVT_MENU) {
 	} else {

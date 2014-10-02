@@ -182,9 +182,18 @@ bool showMainMenu([bool bAttrsChanged = false]) {
 	if (bResult) {
 		//clear screen and home cursor
 		DXConsole.processText(sPostAnsiReset + DXConsole.ANSICMD_ERASE2J_CLEARSCREEN_HOME_CURSOR);
+		SysInfo _si = new SysInfo();
+		List lstSI = _si.getGroup(SysInfo.SYSINFOGRP_WBER);
+
+		int iLinesRemaining = lstSI[SysInfo.SYSINFOGRP_WBER_HEIGHT] - iMAXROWS_MAINMENU;
+		assert(iLinesRemaining > 0);
+		//resize logger to fill entire bottom portion below main form
+		logger.resize(0, iMAXROWS_MAINMENU, iMAXCOLS_MAINMENU, iLinesRemaining, iDOCKPOSITION_BOTTOM);
+
 		if (bAttrsChanged) {
 			_listFutures.add(xwinMain.dispatch(new XControlEventResize(iPOSX, iPOSY, iMAXROWS_MAINMENU, iMAXCOLS_MAINMENU)));
 		}
+
 		_listFutures.add(xwinMain.dispatch(new XControlEvent(iXCONTROLEVENTTYPE_PAINT)));
 		Future.wait(_listFutures, eagerError: true).then((onValue) {
 			cachedXWinTabbedMain = xwinMain;
@@ -256,15 +265,18 @@ bool showHelp() {
 	StringBuffer sb = new StringBuffer();
 	//color_disabled = false;
 
-	bool bSI_IsLittleEndian = false;
-	int iSI_PageSize = 0;
-	int iSI_SizeOfInt = 0;
-	String sSI_Version = "";
+//	bool bSI_IsLittleEndian = false;
+//	int iSI_PageSize = 0;
+//	int iSI_SizeOfInt = 0;
+//	String sSI_Version = "";
+//
+//	bSI_IsLittleEndian = SysInfo.isLittleEndian;
+//	iSI_PageSize = SysInfo.pageSize;
+//	iSI_SizeOfInt = SysInfo.sizeOfInt;
+//	sSI_Version = SysInfo.version;
 
-	bSI_IsLittleEndian = SysInfo.isLittleEndian;
-	iSI_PageSize = SysInfo.pageSize;
-	iSI_SizeOfInt = SysInfo.sizeOfInt;
-	sSI_Version = SysInfo.version;
+	SysInfo _si = new SysInfo();
+	List lstSI = _si.getGroup(SysInfo.SYSINFOGRP_SYS);
 
 	//pen.write('${DXConsole.ANSICMD_ERASE2J_CLEARSCREEN_HOME_CURSOR}');
 	//AnsiTerm.write('${pen..black(bg:true)}');
@@ -278,8 +290,8 @@ bool showHelp() {
 
 	sb.clear();
 	sb.writeAll([sPreAnsiFGColor, DXConsole.ANSICMD_ERASE2J_CLEARSCREEN_HOME_CURSOR, "==============", xpen.down, " dxConsole: Dart Console Library for Windows  (CommandMode)", sPreAnsiFGColor, "=============="]);
-	sb.writeAll(["\nDart VM (", xpen.down, iSI_SizeOfInt * 8, sPreAnsiFGColor, "bit): ", xpen.down, sSI_Version]);
-	sb.writeAll([sPreAnsiFGColor, "\nPage size: ", xpen.down, iSI_PageSize, sPreAnsiFGColor, "kb Endianness: ", xpen.down, bSI_IsLittleEndian ? 'Little-endian' : 'Big-endian']);
+	sb.writeAll(["\nDart VM (", xpen.down, lstSI[SysInfo.SYSINFOGRP_SYS_SIZEOFINT] * 8, sPreAnsiFGColor, "bit): ", xpen.down, lstSI[SysInfo.SYSINFOGRP_SYS_VERSION]]);
+	sb.writeAll([sPreAnsiFGColor, "\nPage size: ", xpen.down, lstSI[SysInfo.SYSINFOGRP_SYS_PAGESIZE], sPreAnsiFGColor, "kb Endianness: ", xpen.down, lstSI[SysInfo.SYSINFOGRP_SYS_ISLITTLEINDIAN] == 0 ? 'Big-endian' : 'Little-endian']);
 	sb.writeAll([sPreAnsiFGColor, "\nStdIn: ", xpen.down, stdioType(stdin).name, sPreAnsiFGColor, " StdOut: ", xpen.down, stdioType(stdout).name]);
 	sb.writeAll([sPreAnsiFGColor, " StdErr: ", xpen.down, stdioType(stderr).name, sPreAnsiFGColor, "\n\nCommands:\n"]);
 

@@ -77,8 +77,8 @@ const int iMI_MOUSE_FLAGS = 3;
 const int iMI_MOUSE_BTNSTATE = 4;
 const int iMI_MOUSE_TOTAL_ELEMENTS = 5;
 //Window Buffer Indexes
-const int iWI_WBER_POSX = 1;
-const int iWI_WBER_POSY = 2;
+const int iWI_WBER_COLS = 1;
+const int iWI_WBER_ROWS = 2;
 const int iWI_WBER_TOTAL_ELEMENTS = 3;
 
 class ConsoleInputEventsParms {
