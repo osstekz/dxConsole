@@ -13,14 +13,14 @@ Just add the Github reference below to your pubspec.yaml:<br \>
   dxConsole:<br \>
      git: https://github.com/osstekz/dxConsole
 
-**__Only for Dart.exe(32bit) projects:__**
+<b><u><i>For Dart.exe(32bit) projects:</i></u></b>
 Due to Dart implementing a hardcoded filename scheme for importing native extension dlls (poor design?), the following manual install is required.
    
-  1. Download zip file and extract to a **__local drive/path__**.
+  1. Download zip file and extract to a <b><u><i>local drive/path</i></u></b>.
   2. Copy the appropriate bin\dxConsole_win32.dll to bin\dxConsole.dll.
-  3. Add a path reference to **__local drive/path__** in your pubspec.yaml. Example:<br \>
+  3. Add a path reference to <b><u><i>local drive/path</i></u></b> in your pubspec.yaml. Example:<br \>
   		dxConsole:<br \>
-  		   path: **__local drive/path__**/dxConsole
+  		   path: <b><u><i>local drive/path</i></u></b>/dxConsole
 	
 ------------------------------------
 ###HOW TO RUN
