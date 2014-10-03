@@ -16,11 +16,11 @@ Just add the Github reference below to your pubspec.yaml:<br \>
 _Only for Dart.exe(32bit) projects:_
 Due to Dart implementing a hardcoded filename scheme for importing native extension dlls (poor design?), the following manual install is required.
    
-  1. Download zip file and extract to a <local drive/path>.
+  1. Download zip file and extract to a <b><u><i>local drive/path</i></u></b>.
   2. Copy the appropriate bin\dxConsole_win32.dll to bin\dxConsole.dll.
   3. Add a path reference to <local drive/path> in your pubspec.yaml. Example:<br \>
   		dxConsole:<br \>
-  		   path: <local drive/path>/dxConsole
+  		   path: __local drive/path__/dxConsole
 	
 ------------------------------------
 ###HOW TO RUN
