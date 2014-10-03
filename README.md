@@ -9,9 +9,9 @@ administration tasks, very similar to BIOS setup screens.
 ####CHANGES YOU NEED TO DO BEFORE RUNNING
 
 I packaged the 64bit version as the default.
-Just add the Github reference below to your pubspec.yaml:
-  dxConsole:
-    git: https://github.com/osstekz/dxConsole
+Just add the Github reference below to your pubspec.yaml:<br \>
+  dxConsole:<br \>
+     git: https://github.com/osstekz/dxConsole
 
 _Only for Dart.exe(32bit) projects:_
 Due to Dart implementing a hardcoded filename scheme for importing native extension dlls (poor design?), the following manual install is required.
@@ -20,7 +20,7 @@ Due to Dart implementing a hardcoded filename scheme for importing native extens
   2. Copy the appropriate bin\dxConsole_win32.dll to bin\dxConsole.dll.
   3. Add a path reference to <local drive/path> in your pubspec.yaml. Example:<br \>
   		dxConsole:<br \>
-    		path: <local drive/path>/dxConsole
+  		   path: <local drive/path>/dxConsole
 	
 ------------------------------------
 ###HOW TO RUN
