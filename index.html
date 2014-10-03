@@ -38,14 +38,21 @@ administration tasks, very similar to BIOS setup screens.</p>
 <hr><h4>
 <a name="changes-you-need-to-do-before-running" class="anchor" href="#changes-you-need-to-do-before-running"><span class="octicon octicon-link"></span></a>CHANGES YOU NEED TO DO BEFORE RUNNING</h4>
 
-<p>Unfortunately, Dart implements a hardcoded filename scheme for native extension dlls. The default installation for bin\dxConsole.dll is the 64bit version.  For Dart.exe(32bit), you must copy the appropriate bin\dxConsole_win32.dll to bin\dxConsole.dll. </p>
+<p>I packaged the 64bit version as the default.
+Just add the Github reference below to your pubspec.yaml:<br>
+  dxConsole:<br>
+     git: <a href="https://github.com/osstekz/dxConsole">https://github.com/osstekz/dxConsole</a></p>
 
-<pre><code>Example:
-If running Dart.exe(32bit)
-    copy bin\dxConsole_win32.dll to bin\dxConsole.dll
-</code></pre>
+<p><b><i>For Dart.exe(32bit) projects:</i></b>
+Due to Dart implementing a hardcoded filename scheme for importing native extension dlls (poor design?), the following manual install is required.</p>
 
-<hr><h3>
+<ol>
+<li>Download zip file and extract to a <b><i>local drive/path</i></b>.</li>
+<li>Copy the appropriate bin\dxConsole_win32.dll to bin\dxConsole.dll.</li>
+<li>Add a path reference to <b><i>local drive/path</i></b> in your pubspec.yaml. Example:<br>
+    dxConsole:<br>
+       path: <b><i>local drive/path</i></b>/dxConsole</li>
+</ol><hr><h3>
 <a name="how-to-run" class="anchor" href="#how-to-run"><span class="octicon octicon-link"></span></a>HOW TO RUN</h3>
 
 <p>dart.exe --checked  example\dxConsoledemo_main.dart</p>
