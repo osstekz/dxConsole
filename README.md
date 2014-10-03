@@ -18,8 +18,8 @@ Due to Dart implementing a hardcoded filename scheme for importing native extens
    
   1. Download zip file and extract to a <local drive/path>.
   2. Copy the appropriate bin\dxConsole_win32.dll to bin\dxConsole.dll.
-  3. Add a path reference to <local drive/path> in your pubspec.yaml. Example:\n
-  		dxConsole:\n
+  3. Add a path reference to <local drive/path> in your pubspec.yaml. Example:<br \>
+  		dxConsole:<br \>
     		path: <local drive/path>/dxConsole
 	
 ------------------------------------
