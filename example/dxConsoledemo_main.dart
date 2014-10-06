@@ -17,8 +17,7 @@ part "dxConsoledemo_evthdlrs.dart";
 //-----------------------------------------------
 bool print(Object object) {
 	iCount++;
-	return logger.print("Log:$iCount\n... $object\n");
-	//return logger.print("Log:$iCount $object -----------------------------------------------1234567890QWERTYUIOPASDFGHJKLZXCVBNM");
+	return logger.print("Log$iCount:$object");
 }
 
 //-----------------------------------------------
