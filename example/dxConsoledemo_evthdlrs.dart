@@ -38,7 +38,7 @@ bool evthdlrTab1(XTab xtab, Uint8List evtInput) {
 				break;
 			default:
 				//send iKey to focused field
-				DXConsole.processText(DXConsole.ANSICMD_BELL);
+				DXConsole.writeTextDecoded(DXConsole.ANSICMD_BELL);
 				bHandled = true;
 				break;
 		}
@@ -112,7 +112,7 @@ void evthdlrMainMenu(Uint8List evtInput) {
 						//restart ConsoleInput
 						ciEvents.start(iCONSOLEPARMS_MAIN, sSTDIN_CMD_HELP).whenComplete(() {
 							if (tmrMsgs != null && tmrMsgs.isActive) tmrMsgs.cancel();
-							DXConsole.processText(DXConsole.ANSICMD_CURSOR_SHOW);
+							DXConsole.writeTextDecoded(DXConsole.ANSICMD_CURSOR_SHOW);
 							//_xwinmgr.clear();
 							//xwinCachedTabbedMain = null;
 							//_cacheXFld = null;
@@ -158,10 +158,12 @@ void evthdlrConsoleInput(line) {
 		return;
 
 	} else if (_cmd == sSTDIN_CMD_COLORS) {
+		final StringBuffer sb = new StringBuffer();
+
 		xpen.white();
 		sPreAnsiFGColor = xpen.down + resetBackground();
 
-		sb.clear();
+		//sb.clear();
 		sb.writeAll([sPostAnsiReset, DXConsole.ANSICMD_ERASE2J_CLEARSCREEN_HOME_CURSOR]);
 		sb.write(sPreAnsiFGColor);
 		sb.write("============AnsiPen Standard 16 color(8bit) Demo===========\n");
@@ -177,7 +179,7 @@ void evthdlrConsoleInput(line) {
 		sb.write("(bold)\n");
 		xpen.reset();
 
-		DXConsole.processText(sb.toString());
+		DXConsole.writeTextDecoded(sb.toString());
 
 		_showColorString("black", 0, xpen);
 		_showColorString("red", 1, xpen);
@@ -195,9 +197,9 @@ void evthdlrConsoleInput(line) {
 		sb.write(ansi_demo());
 		sb.write("\n");
 		xpen.reset();
-		DXConsole.processText(sb.toString());
+		DXConsole.writeTextDecoded(sb.toString());
 	} else if (_cmd == sSTDIN_CMD_CLEARSCREEN) {
-		DXConsole.processText(sPostAnsiReset + DXConsole.ANSICMD_ERASE2J_CLEARSCREEN_HOME_CURSOR);
+		DXConsole.writeTextDecoded(sPostAnsiReset + DXConsole.ANSICMD_ERASE2J_CLEARSCREEN_HOME_CURSOR);
 	} else if (_cmd == sSTDIN_CMD_QUIT) {
 		ciEvents.stop().then((_) {
 			//print ("ready to exit(0)");
@@ -206,12 +208,14 @@ void evthdlrConsoleInput(line) {
 	} else if (_cmd == sSTDIN_CMD_HELP) {
 		showHelp();
 	} else if (line.length > 0) {
+		final StringBuffer sb = new StringBuffer();
+
 		xpen.red(bold: true);
-		sb.clear();
+		//sb.clear();
 		sb.writeAll([xpen.down, "\n'", line, "' unknown command, try '", sSTDIN_CMD_HELP, "'"]);
-		DXConsole.processText(sb.toString());
+		DXConsole.writeTextDecoded(sb.toString());
 	}
 //show command prompt
 	xpen.white(bold: true);
-	DXConsole.processText(resetBackground() + xpen.down + "\n>");
+	DXConsole.writeTextDecoded(resetBackground() + xpen.down + "\n>");
 }

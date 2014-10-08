@@ -14,7 +14,9 @@ part "dxConsoledemo_evthdlrs.dart";
 //-----------------------------------------------
 // Redirect dart:core print function to logger.print
 // Prints a string representation of the object to the console.
+// Note: Always return true, so we can use assert(print("SomeDebugStuff"));
 //-----------------------------------------------
+@override
 bool print(Object object) {
 	iCount++;
 	return logger.print("Log$iCount:$object");
@@ -59,7 +61,7 @@ _unhandledExceptionCallback(e) {
 	//return false;
 }
 
-bool DebugCheckType(obj, String CompareToTypeName, String FnName) {
+bool DebugCheckType(Object obj, String CompareToTypeName, String FnName) {
 	String oTypeName = obj.runtimeType.toString();
 	bool bResult = (oTypeName == CompareToTypeName);
 	if (!bResult) {

@@ -34,7 +34,6 @@ XTabbedWindow cachedXWinTabbedMain;
 int iCount = 0;
 Timer tmrMsgs;
 
-final StringBuffer sb = new StringBuffer();
 final ConsoleInputEvents ciEvents = new ConsoleInputEvents();
 
 //XWINDOW

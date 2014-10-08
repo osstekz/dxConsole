@@ -181,7 +181,7 @@ bool showMainMenu([bool bAttrsChanged = false]) {
 	}
 	if (bResult) {
 		//clear screen and home cursor
-		DXConsole.processText(sPostAnsiReset + DXConsole.ANSICMD_ERASE2J_CLEARSCREEN_HOME_CURSOR);
+		DXConsole.writeTextDecoded(sPostAnsiReset + DXConsole.ANSICMD_ERASE2J_CLEARSCREEN_HOME_CURSOR);
 		SysInfo _si = new SysInfo();
 		List lstSI = _si.getGroup(SysInfo.SYSINFOGRP_WBER);
 
@@ -232,7 +232,9 @@ bool showMainMenu([bool bAttrsChanged = false]) {
 			final int iCOL1 = iPOSX + 2,
 					iCOL2 = iCOL1 + 10,
 					iCOL3 = iCOL2 + 12;
-			sb.clear();
+			final StringBuffer sb = new StringBuffer();
+
+			//sb.clear();
 			//minimize color changes,group same color text
 			//keystoke actions are bold
 			xpen
@@ -251,7 +253,7 @@ bool showMainMenu([bool bAttrsChanged = false]) {
 				xpen.getANSICMD_MOVE_CURSOR_ROW_COL_H(iNAVROW2, iCOL1 + 3), ":Exit", //
 				xpen.getANSICMD_MOVE_CURSOR_CURRENTROW_COL_G(iCOL2 + 2), ":PrevTab", //ring the bell and hide the cursor
 				DXConsole.ANSICMD_BELL + DXConsole.ANSICMD_CURSOR_HIDE]);
-			DXConsole.processText(sb.toString());
+			DXConsole.writeTextDecoded(sb.toString());
 			if (tmrMsgs == null || tmrMsgs.isActive == false) startPeriodic(1);
 		});
 	}
@@ -322,11 +324,13 @@ bool showHelp() {
 	sb.writeAll([sPreAnsiFGColor, sSTDIN_CMD_COLORS, sPostAnsiReset, "- AnsiPen color chart\n"]);
 	sb.write(xpen.getANSICMD_MOVE_CURSOR_CURRENTROW_COL_G(iCOMMANDCOL));
 	sb.writeAll([sPreAnsiFGColor, sSTDIN_CMD_QUIT, sPostAnsiReset, "- exit\n"]);
-	DXConsole.processText(sb.toString());
+	DXConsole.writeTextDecoded(sb.toString());
 	return bResult;
 }
 void _showColorString(String sName, int iColor, AnsiPen ansiPen) {
-	sb.clear();
+	final StringBuffer sb = new StringBuffer();
+
+	//sb.clear();
 	//foreground
 	ansiPen.reset();
 	sb.write(sPreAnsiFGColor);
@@ -363,5 +367,5 @@ void _showColorString(String sName, int iColor, AnsiPen ansiPen) {
 	sb.write(sName);
 	sb.write("\n");
 
-	DXConsole.processText(sb.toString());
+	DXConsole.writeTextDecoded(sb.toString());
 }

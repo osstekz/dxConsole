@@ -82,7 +82,7 @@ class SysInfo {
 	static int SYSINFOGRP_WBER_WIDTH = 0;
 	static int SYSINFOGRP_WBER_HEIGHT = 1;
 
-	List _sysinfo(int iGrp) native "XTGetSysInfo";
+	List _sysinfo(int iGrp) native "DXCGetSysInfo";
 	List getGroup(int iGrp) => _sysinfo(iGrp);
 }
 
@@ -165,9 +165,8 @@ class DXConsole extends AnsiPen {
 	String getANSICMD_MOVE_CURSOR_ROW_COL_H(int iRow, int iCol) => "\x1B[${iRow};${iCol}H";
 
 	//  Global Native Methods
-	static bool processText(String sTerminalText) native "XTParseNWrite";
-	static bool clearRect(Uint8List u8lParms) native "XTClearRect";
-	static bool _writeText(String sText, Uint8List parms) native "XTPrintString";
+	static bool writeTextDecoded(String sTerminalText) native "DXCWriteDecoded";
+	static bool _writeText(String sText, Uint8List parms) native "DXCWriteString";
 	static bool writeText(String sText, int iRow, int iCol, int iColor256) {
 		Uint8List _u8lParms3 = new Uint8List(3);
 		assert(iRow >= 0 && iRow <= iMAXBYTEVALUE);
@@ -178,8 +177,9 @@ class DXConsole extends AnsiPen {
 		_u8lParms3[2] = iColor256;
 		return _writeText(sText, _u8lParms3);
 	}
-	static bool writeFile(String sFilename) native "XTWriteFile";
-	static bool sendKeys(String sKBChars, [int wVirtualKeyCode = iVK_RETURN, int wVirtualScanCode = 0, int dwControlKeyState = 0]) native "XTSendKeys";
+	static bool writeFromFile(String sFilename) native "DXCWriteFromFile";
+	static bool clearRect(Uint8List u8lParms) native "DXCWindowClearRect";
+	static bool sendKeys(String sKBChars, [int wVirtualKeyCode = iVK_RETURN, int wVirtualScanCode = 0, int dwControlKeyState = 0]) native "DXCSendKeys";
 
 	//static bool ConsoleCmds(List<XCommand> listCmds) native "ConsoleCmds";
 	//static bool runTest() native "RunTest";
@@ -191,7 +191,7 @@ class DXConsole extends AnsiPen {
 	@override
 	String write(String msg) {
 		String _str = super.write(msg);
-		processText(_str);
+		writeTextDecoded(_str);
 		return _str;
 	}
 }
@@ -297,11 +297,9 @@ abstract class XControl {
 			iPROPBITSFIELDTYPEFLOAT = 2;
 
 	//Native extension methods
-	//bool _nxFnReSize(int hPeer) native "XWinReSize";
-	//bool _nxFnWriteRect(int hPeer, String sMsg) native "XTWriteRect";
-	bool _nxFnPaint(int hPeer, [dynamic args]) native "XWinPaint";
-	bool _nxFnDataChanged(int hPeer, dynamic _data) native "XWinDataChanged";
-	bool _nxFnFocusChanged(int hPeer, bool bGotFocus, bool bRepaint) native "XWinFocusChanged";
+	bool _nxFnPaint(int hPeer, [dynamic args]) native "DXCWindowPaint";
+	bool _nxFnDataChanged(int hPeer, dynamic _data) native "DXCEvtDataChanged";
+	bool _nxFnFocusChanged(int hPeer, bool bGotFocus, bool bRepaint) native "DXCEvtFocusChanged";
 
 	//DONOT change _nxPeer, it is used by native extension
 	int _nxPeer = 0;
@@ -428,8 +426,8 @@ class XScrollView extends XControl {
 	}
 
 	//Native extension methods
-	bool _nxFnCreate(bool bDockBottom) native "XTScrollCreate";
-	bool _nxFnPrint(int hPeer, String sMsg) native "XTScrollPrint";
+	bool _nxFnCreate(bool bDockBottom) native "DXCCntlScrollCreate";
+	bool _nxFnPrint(int hPeer, String sMsg) native "DXCCntlScrollPrint";
 
 	@override
 	bool _onPaint() {
@@ -451,11 +449,11 @@ class XScrollView extends XControl {
 	}
 }
 
-class XDDList extends XControl {
+class XListBox extends XControl {
 	//Native extension methods
-	//int _menuSelectOption(List<String> listOpts, String sTitle) native "XWinMenuSelect";
+	//int _menuSelectOption(List<String> listOpts, String sTitle) native "DXCCntlListBox";
 
-	XDDList(int iPosX, int iPosY, int iWidth, int iHeight) : super(XControl.iATTRCONTROLTYPE_DROPDOWNLIST, iPosX, iPosY, iHeight, iWidth);
+	XListBox(int iPosX, int iPosY, int iWidth, int iHeight) : super(XControl.iATTRCONTROLTYPE_DROPDOWNLIST, iPosX, iPosY, iHeight, iWidth);
 	@override
 	bool _onPaint() {
 		assert(_nxPeer > 0);
@@ -757,9 +755,9 @@ class XWindow extends XControl {
 	int _iIdxCurrFocusedControl = iUNINITIALIZED_VALUE;
 
 	//Native extension methods
-	void _nxFnInfoMsg(int hXWinPeer, String sMsg) native "XWinInfoMsg";
-	int _nxFnCreate() native "XWinCreate";
-	void _nxFnClose(int hXWinPeer) native "XWinClose";
+	void _nxFnInfoMsg(int hXWinPeer, String sMsg) native "DXCCntlWinInfoMsg";
+	int _nxFnCreate() native "DXCWindowCreate";
+	void _nxFnClose(int hXWinPeer) native "DXCWindowClose";
 
 	XWindow([int iPosX = 0, int iPosY = 0, int iHeight = 25, int iWidth = 80]) : super(XControl.iATTRCONTROLTYPE_WINDOW, iPosX, iPosY, iHeight, iWidth) {
 		_initEvtsHdlr();

@@ -294,5 +294,5 @@ class ConsoleInputEvents {
 		return _spSend;
 	}
 
-	SendPort _newServicePort() native "ServicePort_ConsoleInput";
+	SendPort _newServicePort() native "DXCServicePort_ConsoleInput";
 }
