@@ -7,5 +7,7 @@ environment:
   sdk: '>=1.0.0 <2.0.0'
 dependencies:
   ansicolor: any
+  logging: any
+  logging_handlers: any
 dev_dependencies:
   barback: any

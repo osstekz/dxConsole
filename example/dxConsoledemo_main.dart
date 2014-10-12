@@ -6,8 +6,11 @@ import "dart:typed_data";
 
 import "package:dxConsole/dxConsole.dart";
 import "package:ansicolor/ansicolor.dart";
+import 'package:logging/logging.dart';
+import 'package:logging_handlers/logging_handlers_shared.dart';
 
 part "dxConsoledemo_defs.dart";
+part "app_logger.dart";
 part "dxConsoledemo_show.dart";
 part "dxConsoledemo_evthdlrs.dart";
 
@@ -18,22 +21,15 @@ part "dxConsoledemo_evthdlrs.dart";
 //-----------------------------------------------
 @override
 bool print(Object object) {
-	iCount++;
-	return logger.print("Log$iCount:$object");
+	logger.info(object.toString());
+	return true;
 }
 
 //-----------------------------------------------
 //Create sample messages for log window
 //-----------------------------------------------
 void cbTimer(Timer t) {
-	String sMsg;
-	if (stdout.hasTerminal) {
-		sMsg ="terminal Lines:${stdout.terminalLines} Cols:${stdout.terminalColumns}";
-	}
-	else	{
-		sMsg="...sample message";
-		}
-	print(sMsg);
+	logger.debug("waiting for stuff to do!");
 	if (cachedXInputLogCount != null) {
 		cachedXInputLogCount.value = iCount;
 	}
@@ -61,31 +57,39 @@ _unhandledExceptionCallback(e) {
 	//return false;
 }
 
-bool DebugCheckType(Object obj, String CompareToTypeName, String FnName) {
-	String oTypeName = obj.runtimeType.toString();
-	bool bResult = (oTypeName == CompareToTypeName);
-	if (!bResult) {
-		print("\n-------- DebugCheckType---------\n...caller:${FnName}\n...objTypeName:${oTypeName} != CompareToTypeName:${CompareToTypeName}");
-		String data = obj.toString();
-		print("...data length:${data.length}\n${data}\n--------------------------------");
+bool DebugCheckType(Object oObj, String sCompareToTypeName, String sFnName) {
+	String _oTypeName = oObj.runtimeType.toString();
+	bool _bResult = (_oTypeName == sCompareToTypeName);
+	if (!_bResult) {
+		String sData = oObj.toString();
+		logger.error("DebugCheckType: caller:${sFnName} objTypeName:${_oTypeName} != CompareToTypeName:${sCompareToTypeName}\n...oObj(${sData.length}): ${sData}");
 	}
-	return bResult;
+	return _bResult;
 }
 
 void main() {
+	assert(() {
+		bIsCheckedMode = true;
+		return true;
+	});
+
 	//create console input parameters and function handler
 	ciEvents.mapInputParms[iCONSOLEPARMS_MAIN] = new ConsoleInputEventsParms(evthdlrConsoleInput);
 	ciEvents.mapInputParms[iCONSOLEPARMS_FORMSMODE] = new ConsoleInputEventsParms(evthdlrMainMenu, false)
 			..bMouseEvents = true
 			..bWindowEvents = true;
-
 //	ciEvents.start(iCONSOLEPARMS_MAIN, sSTDIN_CMD_HELP)
-		ciEvents.start(iCONSOLEPARMS_MAIN, sSTDIN_CMD_FORMSMODE)
-//	.whenComplete((){
-//		XTerm.parseText(XTerm.ANSICMD_ERASE2J_CLEARSCREEN_HOME_CURSOR+XTerm.ANSICMD_CURSOR_SHOW+"main::whenComplete");
-//	_xwinmgr.idxCurrent = UNINITIALIZED_VALUE;
-//	})
-	.catchError((excp) {
-		if (bDEBUGMODEDXCONSOLE) _unhandledExceptionCallback("main::Error:$excp");
+	ciEvents.start(iCONSOLEPARMS_MAIN, sSTDIN_CMD_FORMSMODE).whenComplete(() => new Future(() {
+		print("System Started:" + new DateTime.now().toString());
+		logger.warn("NavRCServer:: Sample warn");
+		logger.error("NavRCServer:: Sample error\n...line 2");
+		logger.debug("NavRCServer:: Sample debug");
+		logger.error("NavRCServer:: Sample multi-line error\n" '''
+While parsing a protocol message, the input ended unexpectedly
+in the middle of a field.  This could mean either than the
+input has been truncated or that an embedded message
+misreported its own length.''');
+	})).catchError((excp) {
+		_unhandledExceptionCallback("main::Error:$excp");
 	});
 }

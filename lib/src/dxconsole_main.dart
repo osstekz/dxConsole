@@ -427,7 +427,7 @@ class XScrollView extends XControl {
 
 	//Native extension methods
 	bool _nxFnCreate(bool bDockBottom) native "DXCCntlScrollCreate";
-	bool _nxFnPrint(int hPeer, String sMsg) native "DXCCntlScrollPrint";
+	bool _nxFnPrint(int hPeer, String sMsg,[int iColor]) native "DXCCntlScrollPrint";
 
 	@override
 	bool _onPaint() {
@@ -441,11 +441,13 @@ class XScrollView extends XControl {
 		//_nxFnCreate resizes rectangle dimensions of existing _nxPeer if exists else its created
 		return _nxFnCreate(iDockPosition == iDOCKPOSITION_BOTTOM) != false;
 	}
-	bool print(String _msg, [bool bNewline = true]) {
+
+	///[iColor] Overrides default XControl.iATTRTEXTCOLOR color value
+	bool print(String _msg, [int iColor,bool bNewline = true]) {
 		assert(_nxPeer > 0);
 		if (bNewline) _msg += "\n";
-		//Peer does not store the _msg value, passed the _msg here as an argument
-		return _nxFnPrint(_nxPeer, _msg);
+		///Peer does not store the _msg value, passed the _msg here as an argument
+		return _nxFnPrint(_nxPeer, _msg,iColor);
 	}
 }
 

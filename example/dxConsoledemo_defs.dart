@@ -1,5 +1,7 @@
 part of dxConsoleDemo;
 
+const bool bDEBUGMODE = true;
+
 //PERF:Use int keys instead of String
 const int iCONSOLEPARMS_MAIN = 1;//"main";
 const int iCONSOLEPARMS_FORMSMODE = 2;//"forms";
@@ -28,6 +30,7 @@ const String sANSIFGBLACK = "\x1B[38;5;0m";//black
 String sPostAnsiReset = "\x1B[0m";//reset
 String sPreAnsiFGColor = "\x1B[38;5;15m";//white bold
 bool bShowRuler = false;
+bool bIsCheckedMode = false;
 
 XInputNumber cachedXInputLogCount;
 XTabbedWindow cachedXWinTabbedMain;
@@ -42,4 +45,5 @@ final int iMAXROWS_MAINMENU = 15,
 
 const int iXWINIDX_MAIN = 0;
 final XWinMgr _xwinmgr = new XWinMgr(1);
-final XScrollView logger = new XScrollView(0, iMAXROWS_MAINMENU, iMAXCOLS_MAINMENU, 20, iDOCKPOSITION_TOP);
+final XScrollView xsvlogger = new XScrollView(0, iMAXROWS_MAINMENU, iMAXCOLS_MAINMENU, 20, iDOCKPOSITION_TOP);
+final AppLogger logger = new AppLogger("MobotoServer", xsvlogger);

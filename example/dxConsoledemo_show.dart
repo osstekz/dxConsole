@@ -181,14 +181,13 @@ bool showMainMenu([bool bAttrsChanged = false]) {
 	}
 	if (bResult) {
 		//clear screen and home cursor
-		DXConsole.writeTextDecoded(sPostAnsiReset + DXConsole.ANSICMD_ERASE2J_CLEARSCREEN_HOME_CURSOR);
-		SysInfo _si = new SysInfo();
-		List lstSI = _si.getGroup(SysInfo.SYSINFOGRP_WBER);
+		DXConsole.writeTextDecoded(sPostAnsiReset + xpen.getANSICMD_MOVE_CURSOR_ROW_COL_H(0,0));
+		List lstSI = new SysInfo().getGroup(SysInfo.SYSINFOGRP_WBER);
 
 		int iLinesRemaining = lstSI[SysInfo.SYSINFOGRP_WBER_HEIGHT] - iMAXROWS_MAINMENU;
 		assert(iLinesRemaining > 0);
 		//resize logger to fill entire bottom portion below main form
-		logger.resize(0, iMAXROWS_MAINMENU, iMAXCOLS_MAINMENU, iLinesRemaining, iDOCKPOSITION_BOTTOM);
+		xsvlogger.resize(0, iMAXROWS_MAINMENU, iMAXCOLS_MAINMENU, iLinesRemaining, iDOCKPOSITION_BOTTOM);
 
 		if (bAttrsChanged) {
 			_listFutures.add(xwinMain.dispatch(new XControlEventResize(iPOSX, iPOSY, iMAXROWS_MAINMENU, iMAXCOLS_MAINMENU)));
@@ -293,9 +292,12 @@ bool showHelp() {
 	sb.clear();
 	sb.writeAll([sPreAnsiFGColor, DXConsole.ANSICMD_ERASE2J_CLEARSCREEN_HOME_CURSOR, "==============", xpen.down, " dxConsole: Dart Console Library for Windows  (CommandMode)", sPreAnsiFGColor, "=============="]);
 	sb.writeAll(["\nDart VM (", xpen.down, lstSI[SysInfo.SYSINFOGRP_SYS_SIZEOFINT] * 8, sPreAnsiFGColor, "bit): ", xpen.down, lstSI[SysInfo.SYSINFOGRP_SYS_VERSION]]);
-	sb.writeAll([sPreAnsiFGColor, "\nPage size: ", xpen.down, lstSI[SysInfo.SYSINFOGRP_SYS_PAGESIZE], sPreAnsiFGColor, "kb Endianness: ", xpen.down, lstSI[SysInfo.SYSINFOGRP_SYS_ISLITTLEINDIAN] == 0 ? 'Big-endian' : 'Little-endian']);
+	sb.writeAll([sPreAnsiFGColor, "\nPage size: ", xpen.down, lstSI[SysInfo.SYSINFOGRP_SYS_PAGESIZE], sPreAnsiFGColor, "kb Endianness: ", xpen.down, lstSI[SysInfo.SYSINFOGRP_SYS_ISLITTLEINDIAN] == 0 ? 'Big-endian' : 'Little-endian'
+		,sPreAnsiFGColor, " --checked: ", xpen.down,bIsCheckedMode?"true":"false"]);
 	sb.writeAll([sPreAnsiFGColor, "\nStdIn: ", xpen.down, stdioType(stdin).name, sPreAnsiFGColor, " StdOut: ", xpen.down, stdioType(stdout).name]);
 	sb.writeAll([sPreAnsiFGColor, " StdErr: ", xpen.down, stdioType(stderr).name, sPreAnsiFGColor, "\n\nCommands:\n"]);
+
+	//bIsCheckedMode
 
 	sPostAnsiReset = sPreAnsiFGColor + xpen.getANSICMD_MOVE_CURSOR_CURRENTROW_COL_G(iCOMMANDDESCCOL);
 	xpen.cyan(bold: true);
