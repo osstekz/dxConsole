@@ -19,6 +19,7 @@ part "dxConsoledemo_evthdlrs.dart";
 // Prints a string representation of the object to the console.
 // Note: Always return true, so we can use assert(print("SomeDebugStuff"));
 //-----------------------------------------------
+
 @override
 bool print(Object object) {
 	logger.info(object.toString());
@@ -26,42 +27,58 @@ bool print(Object object) {
 }
 
 //-----------------------------------------------
-//Create sample messages for log window
+///Create sample messages for log window
 //-----------------------------------------------
 void cbTimer(Timer t) {
 	logger.debug("waiting for stuff to do!");
-	if (cachedXInputLogCount != null) {
-		cachedXInputLogCount.value = iCount;
+	//avoid bleed thru for updates via timer
+	if (cachedXWinTabbedMain.tabView.iCurrTab == iMMTAB_LOG) {
+		XTab xTab = cachedXWinTabbedMain.tabView[iMMTAB_LOG];
+		XWindow xWin = xTab.xwin;
+		if (xWin != null) {
+			XInputNumber xInNum = xWin[0];
+			xInNum.value = logger.oLogUIHandler.iTotRecs;
+			xInNum = xWin[1];
+			xInNum.value = logger.oLogUIHandler.iTotErrs;
+			xInNum = xWin[2];
+			xInNum.value = logger.oLogUIHandler.iTotWarns;
+		}
 	}
 }
 
+//-----------------------------------------------
+///Periodic timer events to update tab window fields
+//-----------------------------------------------
 void startPeriodic(int sec) {
 	if (tmrMsgs == null || tmrMsgs.isActive == false) tmrMsgs = new Timer.periodic(new Duration(seconds: sec), cbTimer);
 }
 
+//-----------------------------------------------
 //REFER:https://code.google.com/p/dart/issues/detail?id=9273
 //Issue 9273:	Need a global error handler primitive in the VM
+//-----------------------------------------------
+@override
 _unhandledExceptionCallback(e) {
-	stderr.writeln("\nUHE:" + e.toString());
-//	StringBuffer sb = new StringBuffer();
-//	xpen.white(bold: true);
-//	preAnsiFGColor = xpen.down;
-//	sb.writeAll([preAnsiFGColor, "\n\n-------- _unhandledExceptionCallback---------\n"]);
-//	xpen.red(bold: true);
-//	sb.writeAll([xpen.down, "\nUHE:" + e.toString()]);
-//	xpen.white(bold: true);
-//	sb.writeAll([preAnsiFGColor, "\n---------------------------------------------\n\n"]);
-//	XTerm.writeraw(sb.toString());
+	//stderr.writeln("\nUHE:" + e.toString());
+	StringBuffer sb = new StringBuffer();
+	xpen
+			..reset()
+			..red(bg: true)
+			..white(bold: true);
+	//move cursor below MainMenu and clear to bottom
+	sb.writeAll([xpen.getANSICMD_MOVE_CURSOR_ROW_COL_H(iMAXROWS_MAINMENU + 1, 1), xpen.down, DXConsole.ANSICMD_ERASE0J_FROM_CURSOR_TO_DISPLAYEND]);
+	sb.writeAll(["\n\n-------- _unhandledExceptionCallback---------\n", "\nUHE:" + e.toString(), "\n---------------------------------------------\n\n"]);
+	DXConsole.writeTextDecoded(sb.toString());
 
 	exit(127);
 	//return false;
 }
 
 bool DebugCheckType(Object oObj, String sCompareToTypeName, String sFnName) {
-	String _oTypeName = oObj.runtimeType.toString();
-	bool _bResult = (_oTypeName == sCompareToTypeName);
+	final String _oTypeName = oObj.runtimeType.toString();
+	final bool _bResult = (_oTypeName == sCompareToTypeName);
 	if (!_bResult) {
-		String sData = oObj.toString();
+		final String sData = oObj.toString();
 		logger.error("DebugCheckType: caller:${sFnName} objTypeName:${_oTypeName} != CompareToTypeName:${sCompareToTypeName}\n...oObj(${sData.length}): ${sData}");
 	}
 	return _bResult;

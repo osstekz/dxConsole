@@ -95,13 +95,9 @@ void evthdlrMainMenu(Uint8List evtInput) {
 							break;
 						case VK_LEFT:
 							cachedXWinTabbedMain.tabMove(false);
-							//lazy way to avoid bleed thru for updates via timer/future
-							if (cachedXInputLogCount != null) cachedXInputLogCount.setProperty(XControl.iPROPMASKVISIBLE, cachedXWinTabbedMain.tabView.iCurrTab == 4);
 							break;
 						case VK_RIGHT:
 							cachedXWinTabbedMain.tabMove(true);
-							//lazy way to avoid bleed thru for updates via timer/future
-							if (cachedXInputLogCount != null) cachedXInputLogCount.setProperty(XControl.iPROPMASKVISIBLE, cachedXWinTabbedMain.tabView.iCurrTab == 4);
 							break;
 						default:
 							assert(print("evthdlrMainMenu::iKA_KEYCODE:${evtInput[iKA_KEYCODE].toRadixString(16)} iKey:${iKey} ${evtInput}"));

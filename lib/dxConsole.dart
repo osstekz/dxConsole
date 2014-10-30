@@ -5,8 +5,6 @@ import "dart:io";
 import "dart:isolate";
 import "dart:typed_data";
 import "package:ansicolor/ansicolor.dart";
-//import "package:osslib/ossutils.dart";
-//import "package:ossdevtools/utils.dart";
 
 //===================================================
 //SECTION: Native extensions

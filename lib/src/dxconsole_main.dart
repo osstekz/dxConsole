@@ -110,10 +110,10 @@ class DXConsole extends AnsiPen {
 //Defaults the terminal's background color without altering the foreground.
 	static const String ANSICMD_RESETBACKGROUND = "\x1B[49m";
 
-	static const String _CMD_ERASE_J = "J";
-	static const int _ERASE0J_FROM_CURSOR_TO_DISPLAYEND = 0;
-	static const int _ERASE1J_FROM_START_TO_CURSOR = 1;
-	static const int _ERASE2J_CLEARSCREEN_HOME_CURSOR = 2;
+//	static const String _CMD_ERASE_J = "J";
+//	static const int _ERASE0J_FROM_CURSOR_TO_DISPLAYEND = 0;
+//	static const int _ERASE1J_FROM_START_TO_CURSOR = 1;
+//	static const int _ERASE2J_CLEARSCREEN_HOME_CURSOR = 2;
 
 	static const String _CMD_CLEAR_K = "K";
 
@@ -367,20 +367,30 @@ abstract class XControl {
 	bool _onPaint();
 	//update XWindow(peer) attributes
 	bool _onResize(XControlEventResize evt) {
-		assert(_nxPeer > 0);
-		//return _nxFnReSize(_nxPeer);
+		if (evt.bTopLevelWindow) {
+			assert(evt.iPosX >= 0 && evt.iPosY >= 0 && evt.iHeight > 0 && evt.iWidth > 0);
+			//update XWindow::this position/size attributes
+			_nxu8lAttrs[XControl.iATTRPOSX] = evt.iPosX;
+			_nxu8lAttrs[XControl.iATTRPOSY] = evt.iPosY;
+			//save new dimensions
+			_nxu8lAttrs[XControl.iATTRHEIGHT] = evt.iHeight;
+			_nxu8lAttrs[XControl.iATTRWIDTH] = evt.iWidth;
+		} else {
+			//apply delta X/Y to XWindow::this position/size attributes
+			_nxu8lAttrs[XControl.iATTRPOSX] += evt.iPosX;
+			_nxu8lAttrs[XControl.iATTRPOSY] += evt.iPosY;
+		}
+
 		return false;
 	}
 
 	bool paint() => _onPaint();
 
-	/**
-  	 * Defines foreground & background colors
-  	 * validation rules:
-  	 *    color values: 0..	255
-  	 * 		[iFgColor] != [iBgColor]
-  	 * 		[iPallete]: 0..15
-  	 */
+/// Defines foreground & background colors
+/// validation rules:
+///    color values: 0..	255
+/// 		[iFgColor] != [iBgColor]
+/// 		[iPallete]: 0..15
 	bool colors(int iTextColor, [int iBorderColor = iDEFAULTCOLOR256_FG | iDEFAULTCOLOR256_BG, int iPallete = 0]) {
 		bool bResult = true;
 		//validation rules
@@ -427,7 +437,7 @@ class XScrollView extends XControl {
 
 	//Native extension methods
 	bool _nxFnCreate(bool bDockBottom) native "DXCCntlScrollCreate";
-	bool _nxFnPrint(int hPeer, String sMsg,[int iColor]) native "DXCCntlScrollPrint";
+	bool _nxFnPrint(int hPeer, String sMsg, [int iColor]) native "DXCCntlScrollPrint";
 
 	@override
 	bool _onPaint() {
@@ -443,11 +453,11 @@ class XScrollView extends XControl {
 	}
 
 	///[iColor] Overrides default XControl.iATTRTEXTCOLOR color value
-	bool print(String _msg, [int iColor,bool bNewline = true]) {
+	bool print(String _msg, [int iColor, bool bNewline = true]) {
 		assert(_nxPeer > 0);
 		if (bNewline) _msg += "\n";
 		///Peer does not store the _msg value, passed the _msg here as an argument
-		return _nxFnPrint(_nxPeer, _msg,iColor);
+		return _nxFnPrint(_nxPeer, _msg, iColor);
 	}
 }
 
@@ -464,11 +474,10 @@ class XListBox extends XControl {
 	}
 }
 class XText extends XControl {
-	/**
-	 * label text
-	 */
-//DONOT change fieldname:nxsText, it is used by native extension
-	String nxsText;
+	//TODO: XText needs text-wrap and newline('\n') support.
+	/// label text
+	//DONOT change fieldname:nxsText, it is used by native extension
+	String nxsText = "";
 
 	//iHeight defaults to 1 line
 	//TODO:Make iPosX/iPosY relative to parent window not screen
@@ -484,17 +493,13 @@ class XText extends XControl {
 }
 
 abstract class XInput extends XControl {
-	/**
-	 * label text (Optional)
-	 */
+	/// label text (Optional)
 	String nxsLabel; //DONOT change fieldname:nxsLabel, it is used by native extension
 	dynamic _nxvarValue; //DONOT change fieldname:_nxvarValue, it is used by native extension
-	/**
-	 * printf style format for _nxvarValue (Optional)
-	 */
+	/// printf style format for _nxvarValue (Optional)
 	String nxsFormat; //DONOT change fieldname:format, it is used by native extension
 
-	//iHeight defaults to 1 line
+	///iHeight defaults to 1 line
 	//TODO:Make iPosX/iPosY relative to parent window not screen
 	XInput(int iPosX, int iPosY, int iWidth, [int iHeight = 1, int iPropType = 0]) : super(XControl.iATTRCONTROLTYPE_FIELD, iPosX, iPosY, iHeight, iWidth) {
 		//assert(XTerm.writeText("type:${iPropType} " + showBinary(_nxu8lAttrs[XControl.iATTRBITFLAGS]), 30, 0, 7));
@@ -504,12 +509,14 @@ abstract class XInput extends XControl {
 
 		if (iPropType == XControl.iPROPBITSFIELDTYPENUMBER) {
 			_nxu8lAttrs[XControl.iATTRBITFLAGS] |= XControl.iPROPMASKFIELDTYPENUMBER;
+			_nxvarValue = 0;
 		} else if (iPropType == XControl.iPROPBITSFIELDTYPEFLOAT) {
 			_nxu8lAttrs[XControl.iATTRBITFLAGS] |= XControl.iPROPMASKFIELDTYPEDOUBLE;
+			_nxvarValue = 0.0;
+		} else {
+			//default to String
+			_nxvarValue = "";
 		}
-		//else
-		//default to String
-
 		//assert(XTerm.writeText("set type:${iPropType} " + showBinary(_nxu8lAttrs[XControl.iATTRBITFLAGS]), 32, 0, 7));
 	}
 
@@ -700,7 +707,8 @@ class XTabStrip extends XControl {
 				if (_xwin != null) _xwin._onResize(evt);
 			}
 		}
-		return super._onResize(evt);
+
+		return true;
 	}
 
 	@override
@@ -788,10 +796,10 @@ class XWindow extends XControl {
 	void _initEvtsHdlr() {
 		_sc = new StreamController<XControlEvent>();
 		_sc.stream.listen((XControlEvent evt) {
-			int _type = evt.iEType;
+			final int _type = evt.iEType;
 			bool bResult = false;
 			if (_type == iXCONTROLEVENTTYPE_PAINT) {
-				assert(evt is XControlEvent);
+				//assert(evt is XControlEvent);
 				bResult = _onPaint();
 			} else if (_type == iXCONTROLEVENTTYPE_FOCUS) {
 				assert(evt is XControlEventFocus);
@@ -812,13 +820,10 @@ class XWindow extends XControl {
 		});
 	}
 
-
-	/**
-  	 * Defines window border type
-  	 * [iBorderType] = true for show border
-  	 * validation rules:
-  	 *    border value: [XControl.iPROPBITSBORDERTYPENONE]..[XControl.iPROPBITSBORDERTYPECUSTOM]
-  	 */
+/// Defines window border type
+/// [iBorderType] = true for show border
+/// validation rules:
+///    border value: [XControl.iPROPBITSBORDERTYPENONE]..[XControl.iPROPBITSBORDERTYPECUSTOM]
 	int border(int iBorderType) {
 		final int _iFLAGSNOBORDERBITMASK = iMAXBYTEVALUE - XControl.iPROPMASKBORDER;
 		//cache flags without border value
@@ -939,12 +944,10 @@ class XWindow extends XControl {
 		return (bResult);
 	}
 
-	/**
-	 *  Update position/size attributes for the parent window and its child controls
-	 * [bTopLevelWindow]
-	 * 		true=top level/parent window, values are actual dimensions
-	 * 		false=subcontrol/childwindow, values are parent delta dimensions
-	 */
+/// Update position/size attributes for the parent window and its child controls
+/// [bTopLevelWindow]
+/// 	true=top level/parent window, values are actual dimensions
+/// 	false=subcontrol/childwindow, values are parent delta dimensions
 	@override
 	bool _onResize(XControlEventResize evt) {
 		int _iDeltaWidth, _iDeltaHeight, _iDeltaX, _iDeltaY;
@@ -954,24 +957,14 @@ class XWindow extends XControl {
 			//calc relative/delta change values for child controls
 			_iDeltaX = evt.iPosX - _nxu8lAttrs[XControl.iATTRPOSX];
 			_iDeltaY = evt.iPosY - _nxu8lAttrs[XControl.iATTRPOSY];
-			//update XWindow::this position/size attributes
-			_nxu8lAttrs[XControl.iATTRPOSX] = evt.iPosX;
-			_nxu8lAttrs[XControl.iATTRPOSY] = evt.iPosY;
-			//calc relative/delta change values for child controls
 			_iDeltaHeight = evt.iHeight - _nxu8lAttrs[XControl.iATTRHEIGHT];
 			_iDeltaWidth = evt.iWidth - _nxu8lAttrs[XControl.iATTRWIDTH];
-			//save new dimensions
-			_nxu8lAttrs[XControl.iATTRHEIGHT] = evt.iHeight;
-			_nxu8lAttrs[XControl.iATTRWIDTH] = evt.iWidth;
 		} else {
 			//calc relative/delta change values for child controls
 			_iDeltaX = evt.iPosX;
 			_iDeltaY = evt.iPosY;
 			_iDeltaHeight = 0;
 			_iDeltaWidth = 0;
-			//apply delta X/Y to XWindow::this position/size attributes
-			_nxu8lAttrs[XControl.iATTRPOSX] += _iDeltaX;
-			_nxu8lAttrs[XControl.iATTRPOSY] += _iDeltaY;
 		}
 
 		//resize/move all the child controls

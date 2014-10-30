@@ -26,15 +26,13 @@ const int iCOLORCOL3 = iCOLORCOL2 + 12;
 const int iCOLORCOL4 = iCOLORCOL3 + 20;
 const int iCOLORCOL5 = iCOLORCOL4 + 12;
 
-const String sANSIFGBLACK = "\x1B[38;5;0m";//black
+const int iMMTAB_LOG = 4;
 String sPostAnsiReset = "\x1B[0m";//reset
 String sPreAnsiFGColor = "\x1B[38;5;15m";//white bold
 bool bShowRuler = false;
 bool bIsCheckedMode = false;
 
-XInputNumber cachedXInputLogCount;
 XTabbedWindow cachedXWinTabbedMain;
-int iCount = 0;
 Timer tmrMsgs;
 
 final ConsoleInputEvents ciEvents = new ConsoleInputEvents();

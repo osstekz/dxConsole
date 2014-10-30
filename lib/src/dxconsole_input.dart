@@ -90,52 +90,35 @@ class ConsoleInputEventsParms {
 			_addEvtMouse = false,
 			_addEvtWindow = false;
 	ConsoleInputEventsParms(this._fnInputEvents, [this._bLineMode = true, this._bEchoMode = true]);
-	/**
-     * Set the default Handler for incoming messages
-     */
+
+	/// Set the default Handler for incoming messages
 	set fnInputEvents(Function fn) => _fnInputEvents = fn;
 
-	/**
-       * Check if echo mode is enabled.
-       */
+/// Check if echo mode is enabled.
 	bool get bEchoMode => _bEchoMode;
 
-	/**
-       * Enable or disable echo mode.
-       * If disabled, input from to console will not be echoed.
-       */
+/// Enable or disable echo mode.
+/// If disabled, input from to console will not be echoed.
 	set bEchoMode(bool enabled) => _bEchoMode = enabled;
 
-	/**
-   * Check if line mode is enabled.
-   */
+   /// Check if line mode is enabled.
 	bool get bLineMode => _bLineMode;
 
-	/**
-   * Enable or disable line mode on.
-   * If enabled, characters are delayed until a new-line character is entered.
-   * If disabled, characters will be available as typed.
-   */
+/// Enable or disable line mode on.
+/// If enabled, characters are delayed until a new-line character is entered.
+/// If disabled, characters will be available as typed.
 	set bLineMode(bool enabled) => _bLineMode = enabled;
 
-	/**
-   * Check if Mouse events are captured.
-   */
+/// Check if Mouse events are captured.
 	bool get bMouseEvents => _addEvtMouse;
 
-	/**
-   * Enable or disable capturing Mouse events.
-   */
+/// Enable or disable capturing Mouse events.
 	set bMouseEvents(bool enabled) => _addEvtMouse = enabled;
 
-	/**
-   * Check if Window events are captured.
-   */
+/// Check if Window events are captured.
 	bool get bWindowEvents => _addEvtWindow;
 
-	/**
-   * Enable or disable capturing Window events.
-  */
+/// Enable or disable capturing Window events.
 	set bWindowEvents(bool enabled) => _addEvtWindow = enabled;
 }
 

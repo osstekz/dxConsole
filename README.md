@@ -5,6 +5,10 @@ This library was created to support [Dart]: http://dartlang.org projects requiri
 dxConsole implements both Forms & Commandline modes. Forms mode is especially useful for configuration &
 administration tasks, very similar to BIOS setup screens.
 
+Originally not intended to be a framework.  It continues to grow out of necessity from other project requirements.
+If you would like to see addtional functionality, feel free to post an enhancement/change request.
+
+Enjoy!
 ------------------------------------
 ####CHANGES YOU NEED TO DO BEFORE RUNNING
 
