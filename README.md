@@ -3,8 +3,9 @@
 
 dxConsole implements both Forms & Commandline modes. Forms mode is especially useful for configuration & administration tasks, very similar to BIOS setup screens.
 
-This library was initially created to support [Dart]: http://dartlang.org projects requiring extended native Windows Console support. It is not intended to be a framework, but continues to grow based on other project requirements. If you would like to see addtional functionality, feel free to post an enhancement/change request.
+This library was initially created to support [Dart]: http://dartlang.org projects requiring native ANSI escape sequences for Windows console programs. It is not intended to be a framework, but continues to grow based on other project requirements. If you would like to see addtional functionality, feel free to post an enhancement/change request.
 
+Enjoy
 ------------------------------------
 ####CHANGES YOU NEED TO DO BEFORE RUNNING
 
@@ -28,7 +29,7 @@ dart.exe --checked  example\dxConsoledemo_main.dart
  
 ------------------------------------
 ####DEVELOPMENT
-Development and testing for both 32/64bit OS versions uses the lastest Dev Channel SDK.  
+Development and testing for both 32/64bit OS versions uses the latest Dev Channel SDK.  
 
 Contributions to this are absolutely welcome! Feel free to file issues, send pull requests, etc.
  
