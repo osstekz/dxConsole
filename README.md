@@ -1,14 +1,12 @@
 
 ###Dart Console Library for Windows
 
-This library was created to support [Dart]: http://dartlang.org projects requiring extended native Windows Console support.
-dxConsole implements both Forms & Commandline modes. Forms mode is especially useful for configuration &
-administration tasks, very similar to BIOS setup screens.
+This library was initially created to support [Dart]: http://dartlang.org projects requiring extended native Windows Console support. It is not intended to be a framework, but continues to grow based on other project requirements.
+dxConsole implements both Forms & Commandline modes. Forms mode is especially useful for configuration & administration tasks, very similar to BIOS setup screens.
 
-Originally not intended to be a framework.  It continues to grow out of necessity from other project requirements.
 If you would like to see addtional functionality, feel free to post an enhancement/change request.
 
-Enjoy!
+Enjoy
 ------------------------------------
 ####CHANGES YOU NEED TO DO BEFORE RUNNING
 
