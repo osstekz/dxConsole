@@ -5,7 +5,6 @@ dxConsole implements both Forms & Commandline modes. Forms mode is especially us
 
 This library was initially created to support [Dart]: http://dartlang.org projects requiring native ANSI escape sequences for Windows console programs. It is not intended to be a framework, but continues to grow based on other project requirements. If you would like to see addtional functionality, feel free to post an enhancement/change request.
 
-Enjoy
 ------------------------------------
 ####CHANGES YOU NEED TO DO BEFORE RUNNING
 
